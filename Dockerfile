@@ -33,12 +33,12 @@ RUN dpkg --add-architecture i386 && \
     # Install python for pyiqfeed
     apt-get install -yq --no-install-recommends \
         git python3 python3-setuptools python3-numpy python3-pip python3-tz \
+        python-pip \
         python3-psycopg2 python3-dateutil python3-sqlalchemy python3-pandas &&\
     # Cleaning up.
     apt-get autoremove -y --purge && \
     apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-	alias pip='python3 -m pip'
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #RUN wget -O - https://github.com/novnc/noVNC/archive/v1.1.0.tar.gz | tar -xzv -C /root/ && mv /root/noVNC-1.1.0 /root/novnc && ln -s /root/novnc/vnc_lite.html /root/novnc/index.html
 #RUN wget -O - https://github.com/novnc/websockify/archive/v0.9.0.tar.gz | tar -xzv -C /root/ && mv /root/websockify-0.9.0 /root/novnc/utils/websockify
@@ -66,9 +66,16 @@ ADD is_iqfeed_running.py /root/is_iqfeed_running.py
 ADD iqfeed_startup.sh /root/iqfeed_startup.sh
 RUN chmod +x /root/iqfeed_startup.sh && mkdir -p /root/DTN/IQFeed
 
+# update alternative to use python3 and pip3
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
+
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 5009 9100 9200 9300 9400
 EXPOSE 5900 8080
+
+RUN alias pip='pip3'
+RUN alias python='python3'
 
 CMD ["/usr/bin/supervisord"]
