@@ -21,6 +21,7 @@ RUN dpkg --add-architecture i386 && \
     apt-get update && apt-get upgrade -yq && \
     apt-get install -yq --no-install-recommends \
       software-properties-common apt-utils supervisor xvfb wget tar gpg-agent \
+	  gcc python3-dev \
 	  bbe netcat-openbsd net-tools && \
     wget -O - https://dl.winehq.org/wine-builds/winehq.key | apt-key add - && \
     echo 'deb https://dl.winehq.org/wine-builds/ubuntu/ eoan main' |tee /etc/apt/sources.list.d/winehq.list && \

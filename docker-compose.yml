@@ -12,9 +12,9 @@ services:
      - "8088:8080"
      - "5901:5900"
     environment:
-      IQFEED_PRODUCT_ID: "MATLAB_1694"
-      IQFEED_LOGIN: "489834"
-      IQFEED_PASSWORD: "35448408"
+      IQFEED_PRODUCT_ID: ${IQFEED_PRODUCT_ID}
+      IQFEED_LOGIN: ${IQFEED_LOGIN}
+      IQFEED_PASSWORD: ${IQFEED_PASSWORD}
     volumes:
       - /var/log/iqfeed:/root/DTN/IQFeed
       - /var/log/distdnnd:/var/log/distdnnd
@@ -33,4 +33,4 @@ services:
       AUTOHEAL_CONTAINER_LABEL: all
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    hostname: autoheal      
+    hostname: autoheal
